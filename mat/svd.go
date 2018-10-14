@@ -33,8 +33,7 @@ type SVD struct {
 // storage costs can be reduced using the appropriate kind. Only the singular
 // values can be computed (kind == SVDNone), or a "thin" representation of the
 // singular vectors (kind = SVDThin). The thin representation can save a significant
-// amount of memory if m >> n. See the documentation for the lapack.SVDKind values
-// for more information.
+// amount of memory if m >> n.
 //
 // Factorize returns whether the decomposition succeeded. If the decomposition
 // failed, routines that require a successful factorization will panic.
@@ -81,8 +80,8 @@ func (svd *SVD) Factorize(a Matrix, kind SVDKind) (ok bool) {
 			Stride: n,
 			Data:   use(svd.vt.Data, min(m, n)*n),
 		}
-		jobU = lapack.SVDInPlace
-		jobVT = lapack.SVDInPlace
+		jobU = lapack.SVDStore
+		jobVT = lapack.SVDStore
 	}
 
 	// A is destroyed on call, so copy the matrix.
